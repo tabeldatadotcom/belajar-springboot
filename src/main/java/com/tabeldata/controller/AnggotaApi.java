@@ -16,19 +16,23 @@ public class AnggotaApi {
     @Autowired
     private AnggotaRepository repo;
 
-    @GetMapping("/list")
+    @GetMapping("/")
     public List<Anggota> cariSemuaData() {
         return repo.findAll();
     }
 
     @GetMapping("/{id}")
-    public Anggota findById(@PathVariable("id") Integer kode) {
-        return repo.findOne(kode);
+    public ResponseEntity<Anggota> findById(@PathVariable("id") Integer kode) {
+        Anggota anggota = repo.findOne(kode);
+        if (anggota != null) return new ResponseEntity<>(anggota, HttpStatus.OK);
+        else
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PostMapping("/")
-    public Anggota save(@RequestBody Anggota anggota) {
-        return repo.save(anggota);
+    public ResponseEntity<Anggota> save(@RequestBody Anggota anggota) {
+        anggota = repo.save(anggota);
+        return new ResponseEntity<>(anggota, HttpStatus.CREATED);
     }
 
     @PutMapping("/")
@@ -39,6 +43,7 @@ public class AnggotaApi {
     @DeleteMapping("/{id}")
     public ResponseEntity<Anggota> delete(@PathVariable("id") Integer id) {
         repo.delete(id);
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
