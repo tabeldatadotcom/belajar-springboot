@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface AnggotaRepository extends PagingAndSortingRepository<Anggota, Integer> {
 
-    public List<Anggota> findAll();
+    List<Anggota> findAll();
 
     List<Anggota> findByNamaLike(String nama);
 }

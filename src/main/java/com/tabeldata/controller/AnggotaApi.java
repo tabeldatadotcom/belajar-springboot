@@ -1,32 +1,21 @@
 package com.tabeldata.controller;
 
-import org.springframework.web.bind.annotation.*;
+import com.tabeldata.entity.Anggota;
+import com.tabeldata.repository.AnggotaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 @RestController
 public class AnggotaApi {
 
-    @GetMapping(value = "/api/info")
-    public Map info(@RequestParam(required = false) String data) {
-        Map<String, Object> param = new HashMap<>();
-        param.put("nama", data);
-        param.put("tanggal", new Date());
-        param.put("method", "get");
-        return param;
-    }
+    @Autowired
+    private AnggotaRepository repo;
 
-    @PostMapping(value = "/api/info")
-    public Map set(
-            @RequestParam(required = false) String data,
-            @RequestBody String value) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("namaQueryParam", data);
-        params.put("namaRequestBody", value);
-        params.put("tanggal", new Date());
-        params.put("method", "post");
-        return params;
+    @GetMapping("/api/anggota/list")
+    public List<Anggota> cariSemuaData() {
+        return repo.findAll();
     }
 }
